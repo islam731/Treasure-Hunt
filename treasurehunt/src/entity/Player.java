@@ -14,16 +14,20 @@ public class Player extends Entity {
 	
 	GamePanel gp;
 	KeyHandler keyH ;
+	public final int screenx;
+	public final int screeny;
 	public Player(GamePanel gp,KeyHandler keyH ) {
 		this. keyH =keyH;
 		this. gp=gp;
+		screenx=gp.screenWidth/2 - (gp.titleSize/2);
+		screeny= gp.screenHight/2 - (gp.titleSize/2);
 		setDefaultValue();
 	    getPlayerImage();
 		
 	}
 	public void setDefaultValue() {
-		x=100;
-		y=100;
+		worldx=gp.titleSize*23;
+		worldy=gp.titleSize*21;
 		speed=4;
 		direction ="down";
 	}
@@ -51,19 +55,19 @@ public class Player extends Entity {
 		if(keyH.upPressed == true ||keyH.downPressed == true ||keyH.leftPressed == true ||keyH.rightPressed == true ) {
 		if(keyH.upPressed == true) {
 			direction="up";
-			 y -= speed;   
+			 worldy -= speed;   
 		   }
 		   else if(keyH.downPressed == true) {
 			   direction="down";
-			  y += speed;   
+			  worldy += speed;   
 		   }
 		   else if (keyH.leftPressed == true) {
 			   direction="left";
-			x-= speed;   
+			worldx-= speed;   
 		   }
 		   else if (keyH.rightPressed == true) {
 			   direction="right";
-			   x += speed;   
+			   worldx += speed;   
 		   }
 		spirteCounter++;
 		if(spirteCounter>9) {
@@ -111,7 +115,7 @@ public class Player extends Entity {
 			if(spriteNum == 2){ 
 				image=right2;
 				}
-			break;
+		break;
 			
 		case "left":
 			if(spriteNum == 1){ 
@@ -122,7 +126,7 @@ public class Player extends Entity {
 				}
 			break;
 		}
-		g2.drawImage(image, x, y, gp.titleSize ,gp.titleSize,null);
+		g2.drawImage(image, screenx, screeny, gp.titleSize ,gp.titleSize,null);
 	}
 
 }
