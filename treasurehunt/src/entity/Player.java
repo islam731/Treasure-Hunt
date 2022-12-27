@@ -2,6 +2,7 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -19,15 +20,21 @@ public class Player extends Entity {
 	public Player(GamePanel gp,KeyHandler keyH ) {
 		this. keyH =keyH;
 		this. gp=gp;
-		screenx=gp.screenWidth/2 - (gp.titleSize/2);
-		screeny= gp.screenHight/2 - (gp.titleSize/2);
+		screenx= gp.screenWidth/2 - (gp.tileSize/2);
+		screeny= gp.screenHight/2 - (gp.tileSize/2);
+		
+		solidArea = new Rectangle(8,16,32,32);
+		solidAreaDefaultX = solidArea.x;
+		solidAreaDefaultY = solidArea.y;
+		
+		
 		setDefaultValue();
 	    getPlayerImage();
 		
 	}
 	public void setDefaultValue() {
-		worldx=gp.titleSize*23;
-		worldy=gp.titleSize*21;
+		worldx=gp.tileSize*23;
+		worldy=gp.tileSize*21;
 		speed=4;
 		direction ="down";
 	}
@@ -55,20 +62,45 @@ public class Player extends Entity {
 		if(keyH.upPressed == true ||keyH.downPressed == true ||keyH.leftPressed == true ||keyH.rightPressed == true ) {
 		if(keyH.upPressed == true) {
 			direction="up";
-			 worldy -= speed;   
+			   
 		   }
 		   else if(keyH.downPressed == true) {
 			   direction="down";
-			  worldy += speed;   
+			   
 		   }
 		   else if (keyH.leftPressed == true) {
 			   direction="left";
-			worldx-= speed;   
+			  
 		   }
 		   else if (keyH.rightPressed == true) {
 			   direction="right";
-			   worldx += speed;   
+			     
 		   }
+		collisionOn = false;
+		gp.cChecker.checkTile(this);
+		int objIndex =gp.cChecker.checkObject(this, true);
+		pickUpObject(objIndex);
+		
+		if(collisionOn == false) {
+			switch(direction) {
+			
+			case "up":
+				 worldy -= speed;
+				break;
+				
+			case "down":
+				 worldy += speed; 
+				break;
+				
+			case "right":
+				worldx += speed; 
+			break;
+				
+			case "left":
+				worldx-= speed; 
+				break;
+			}
+		}
 		spirteCounter++;
 		if(spirteCounter>9) {
 			if(spriteNum == 1) {
@@ -80,13 +112,33 @@ public class Player extends Entity {
 			spirteCounter =0;
 		}
 		}
-		
+		}
+		int hasKey=0;
+    public void pickUpObject(int index) {
+		if(index != 999) {
+			String objectName = gp.obj[index].name;
+			
+			switch(objectName) {
+			case "key":
+				hasKey++;
+				gp.obj[index]=null;
+				System.out.println(hasKey);
+				break;
+			case "Door":
+				if(hasKey > 0) {
+				gp.obj[index]=null;
+				hasKey--;
+				System.out.println(hasKey);
+				}
+				
+			}
+		}
 		
 	}
 	public void draw(Graphics2D g2) {
 		
 		 //    g2.setColor(Color.white);
-		 //  g2.fillRect(x, y,gp.titleSize, gp.titleSize);
+		 //  g2.fillRect(x, y,gp.tileSize, gp.tileSize);
 		BufferedImage image = null;
 		switch(direction) {
 		
@@ -126,7 +178,7 @@ public class Player extends Entity {
 				}
 			break;
 		}
-		g2.drawImage(image, screenx, screeny, gp.titleSize ,gp.titleSize,null);
+		g2.drawImage(image, screenx, screeny, gp.tileSize ,gp.tileSize,null);
 	}
 
 }

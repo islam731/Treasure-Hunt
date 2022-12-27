@@ -12,37 +12,43 @@ import main.GamePanel;
 
 public class TileManger {
 	GamePanel gp;
-	Tile[ ] tile;
-	int mapTileNum[][];
+	public Tile[ ] tile;
+	public int mapTileNum[][];
 	
 	public TileManger(GamePanel gp) {
 		
 		this.gp=gp;
 		tile=new Tile[10];
-		mapTileNum=new int [gp.maxWorldCol][gp.maxWorldRow];
+		 mapTileNum =new int [gp.maxWorldCol][gp.maxWorldRow];
 		getTileImage();
-		loadMap("/maps/world.txt");
+		loadMap("/maps/world01.txt");
 	}
 	public void getTileImage() {
 		
 		try {
 			
 			tile[0]=new Tile();
-			tile[0].image= ImageIO.read(getClass().getResourceAsStream("/tiles/grass.jpg"));
+			tile[0].image= ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
 			
 			tile[1]=new Tile();
-			tile[1].image= ImageIO.read(getClass().getResourceAsStream("/tiles/wall1.jpg"));
+			tile[1].image= ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+			tile[1].collision = true;
 			
 			tile[2]=new Tile();
-			tile[2].image= ImageIO.read(getClass().getResourceAsStream("/tiles/water.jpg"));
+			tile[2].image= ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
+			tile[2].collision = true;
 			
-
 			tile[3]=new Tile();
-			tile[3].image= ImageIO.read(getClass().getResourceAsStream("/tiles/tree.jpg"));
-			
-
+			tile[3].image= ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+       
 			tile[4]=new Tile();
-			tile[4].image= ImageIO.read(getClass().getResourceAsStream("/tiles/Sand.png"));
+			tile[4].image= ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+			tile[4].collision = true;
+
+			tile[5]=new Tile();
+			tile[5].image= ImageIO.read(getClass().getResourceAsStream("/tiles/Sand.png"));
+			
+			
 			
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -89,16 +95,16 @@ public class TileManger {
 		{
 			
 			int tileNum=mapTileNum[Worldcol][Worldrow];
-			int worldx=Worldcol*gp.titleSize;
-			int worldy=Worldrow *gp.titleSize;
+			int worldx=Worldcol*gp.tileSize;
+			int worldy=Worldrow *gp.tileSize;
 			int screenx=worldx - gp.player.worldx + gp.player.screenx;
 			int screeny=worldy - gp.player.worldy + gp.player.screeny;
-			if (worldx +gp.titleSize>gp.player.worldx - gp.player.screenx &&
-			    worldx -gp.titleSize <gp.player.worldx+ gp.player.screenx && 
-			    worldy +gp.titleSize> gp.player.worldy- gp.player.screeny &&
-				worldy -gp.titleSize< gp.player.worldy+ gp.player.screeny) {
+			if (worldx +gp.tileSize>gp.player.worldx - gp.player.screenx &&
+			    worldx -gp.tileSize <gp.player.worldx+ gp.player.screenx && 
+			    worldy +gp.tileSize> gp.player.worldy- gp.player.screeny &&
+				worldy -gp.tileSize< gp.player.worldy+ gp.player.screeny) {
 			
-				g2.drawImage(tile[tileNum].image, screenx, screeny, gp.titleSize, gp.titleSize, null);	
+				g2.drawImage(tile[tileNum].image, screenx, screeny, gp.tileSize, gp.tileSize, null);	
 			}
 			
 			
