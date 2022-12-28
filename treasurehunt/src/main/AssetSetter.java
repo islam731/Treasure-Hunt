@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import objects.OBJ_Chest;
 import objects.OBJ_Door;
 import objects.OBJ_Key;
+import objects.Obj_Boots;
 
 public class AssetSetter {
 	GamePanel gp;
@@ -39,6 +40,10 @@ public class AssetSetter {
 		gp.obj[6] = new OBJ_Chest();
 		gp.obj[6].worldx= 10 * gp.tileSize;
 		gp.obj[6].worldy= 8 * gp.tileSize;
+		
+		gp.obj[7] = new Obj_Boots();
+		gp.obj[7].worldx= 37 * gp.tileSize;
+		gp.obj[7].worldy= 42 * gp.tileSize;
 		
 	}
 	

@@ -113,26 +113,46 @@ public class Player extends Entity {
 		}
 		}
 		}
-		int hasKey=0;
+		public int hasKey=0;
     public void pickUpObject(int index) {
 		if(index != 999) {
 			String objectName = gp.obj[index].name;
 			
 			switch(objectName) {
 			case "key":
+				gp.playSE(1);
 				hasKey++;
 				gp.obj[index]=null;
-				System.out.println(hasKey);
+				gp.ui.showMessage(" you got a key! ");
 				break;
 			case "Door":
 				if(hasKey > 0) {
+					gp.playSE(3);
 				gp.obj[index]=null;
 				hasKey--;
-				System.out.println(hasKey);
+				gp.ui.showMessage(" you opened a door ! ");
 				}
-				
+				else {
+					gp.ui.showMessage(" you need a key! ");
+				}
+				System.out.println(hasKey);
+			break;
+			case "Boots":
+				gp.playSE(2);
+				speed +=2;
+				gp.obj[index]=null;
+				gp.ui.showMessage(" speed up! ");
+			gp.obj[index]=null;
+			break;
+			
+			case "Chest":
+				gp.ui.gameFinished = true;
+				gp.stopMusic();
+				gp.playSE(4);
+				break;
 			}
-		}
+				}	
+		
 		
 	}
 	public void draw(Graphics2D g2) {
