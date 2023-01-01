@@ -33,21 +33,21 @@ public class Player extends Entity {
 		
 	}
 	public void setDefaultValue() {
-		worldx=gp.tileSize*23;
+		worldx=gp.tileSize*23+58;
 		worldy=gp.tileSize*21;
 		speed=4;
 		direction ="down";
 	}
 	public void getPlayerImage() {
 	  try {
-		  up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-		  up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-		  down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-		  down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-		  right1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-		  right2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
-		  left1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-		  left2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
+		  up1 = ImageIO.read(getClass().getResourceAsStream("/player/boyup1.png"));
+		  up2 = ImageIO.read(getClass().getResourceAsStream("/player/boyup2.png"));
+		  down1 = ImageIO.read(getClass().getResourceAsStream("/player/boydown1.png"));
+		  down2 = ImageIO.read(getClass().getResourceAsStream("/player/boydown2.png"));
+		  right1 = ImageIO.read(getClass().getResourceAsStream("/player/boyright1.png"));
+		  right2 = ImageIO.read(getClass().getResourceAsStream("/player/boyright2.png"));
+		  left1 = ImageIO.read(getClass().getResourceAsStream("/player/boyleft1.png"));
+		  left2 = ImageIO.read(getClass().getResourceAsStream("/player/boyleft2.png"));
 		  
      	  }catch(IOException e) {
      		  e.printStackTrace();
@@ -114,6 +114,7 @@ public class Player extends Entity {
 		}
 		}
 		public int hasKey=0;
+		public int hasIronKey=0;
     public void pickUpObject(int index) {
 		if(index != 999) {
 			String objectName = gp.obj[index].name;
@@ -123,25 +124,24 @@ public class Player extends Entity {
 				gp.playSE(1);
 				hasKey++;
 				gp.obj[index]=null;
-				gp.ui.showMessage(" you got a key! ");
+				gp.ui.showMessage(" You Got A Key! ");
 				break;
 			case "Door":
 				if(hasKey > 0) {
 					gp.playSE(3);
 				gp.obj[index]=null;
 				hasKey--;
-				gp.ui.showMessage(" you opened a door ! ");
+				gp.ui.showMessage(" You Opened A Door ! ");
 				}
 				else {
-					gp.ui.showMessage(" you need a key! ");
+					gp.ui.showMessage(" You Need A Key! ");
 				}
-				System.out.println(hasKey);
 			break;
 			case "Boots":
 				gp.playSE(2);
 				speed +=2;
 				gp.obj[index]=null;
-				gp.ui.showMessage(" speed up! ");
+				gp.ui.showMessage(" Speed Up! ");
 			gp.obj[index]=null;
 			break;
 			
@@ -149,6 +149,23 @@ public class Player extends Entity {
 				gp.ui.gameFinished = true;
 				gp.stopMusic();
 				gp.playSE(4);
+				break;
+			case "Iron Door":
+				gp.playSE(3);
+				if(hasIronKey > 0) {
+				gp.obj[index]=null;
+				hasIronKey--;
+				gp.ui.showMessage(" You Opened An Iron Door! ");
+				}
+				else {
+					gp.ui.showMessage(" You Need An Iron Key! ");
+				}
+				break;
+			case "Iron Key":
+				gp.playSE(1);
+				hasIronKey++;
+				gp.obj[index]=null;
+				gp.ui.showMessage(" You Got An Iron Key! ");
 				break;
 			}
 				}	
